@@ -2,7 +2,7 @@
 using Infrastructure.Services;
 using Models;
 
-namespace DiscordBotWebApi.Bot
+namespace DiscordBotWebApi.Bot.Handlers
 {
 	public class OnRoleCreatedHandler
 	{
@@ -16,11 +16,12 @@ namespace DiscordBotWebApi.Bot
 		public async Task Handler(SocketRole role)
 		{
 			await _userManager.AddRole(
-				new DiscordRole() { 
+				new DiscordRole()
+				{
 					DiscordId = role.Id,
 					Name = role.Name
 				}
 			);
-		}	
+		}
 	}
 }

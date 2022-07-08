@@ -48,7 +48,6 @@ h1, h4 {
 {
     <table class="table">
   <tr>
-    <th class="table__heading">Id</th>
     <th class="table__heading">DiscordId</th>
     <th class="table__heading">Name</th>
     <th class="table__heading">Management</th>
@@ -94,7 +93,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var roles = await HttpClient.GetFromJsonAsync<List<DiscordRole>>("https://localhost:7160/Get/DiscordRole");
+        var roles = await HttpClient.GetFromJsonAsync<List<DiscordRole>>("https://localhost:7160/api/Get/DiscordRole");
         foreach (var role in roles)
         {
             discordRoles.Add(new RolesData(){

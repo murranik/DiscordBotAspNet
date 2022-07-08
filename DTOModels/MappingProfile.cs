@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Discord.WebSocket;
+using Models;
 
 namespace DTOModels
 {
@@ -9,6 +10,8 @@ namespace DTOModels
 		{
 			CreateMap<AdministrationGuildDTO, SocketGuild>();
 			CreateMap<SocketGuild, AdministrationGuildDTO>();
+			CreateMap<AdministratorDto, Administrator>();
+			CreateMap<Administrator, AdministratorDto>();
 		}
 	}
 }

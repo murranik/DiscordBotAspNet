@@ -9,6 +9,7 @@ using Infrastructure.Services.BackgroundServices;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Options;
 using Options.Shikimory;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services
     .Configure<DanbooruOptions>(builder.Configuration.GetSection(DanbooruOptions.Title))
     .Configure<ShikimoryOptions>(builder.Configuration.GetSection(ShikimoryOptions.Title))
     .Configure<DiscordOptions>(builder.Configuration.GetSection(DiscordOptions.Title))
+    .Configure<SmtpOptions>(builder.Configuration.GetSection(SmtpOptions.Title))
     .Configure<ShikimoryClientOptions>(builder.Configuration.GetSection(ShikimoryClientOptions.Title));
 
 var configuration = new ConfigurationBuilder()
@@ -32,7 +34,10 @@ builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<ShikimoryService>();
 builder.Services.AddTransient<GetService>();
 builder.Services.AddTransient<CommandService>();
-builder.Services.AddTransient<TokenService>();
+builder.Services.AddTransient<AdministrationService>();
+builder.Services.AddSingleton<TokenService>();
+builder.Services.AddTransient<SmtpService>();
+builder.Services.AddTransient<AuthService>();
 builder.Services.AddHostedService<UpdateUserStatisticHostedServices>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddClient(configuration);
@@ -46,8 +51,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "_myAllowSpecificOrigins",
                       policy =>
                       {
-                          policy.WithOrigins("https://localhost:7208",
-                                              "http://localhost:5208");
+                          policy
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowAnyOrigin();
                       });
 });
 

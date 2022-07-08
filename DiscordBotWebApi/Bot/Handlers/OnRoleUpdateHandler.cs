@@ -2,16 +2,16 @@
 using Infrastructure.Services;
 using Models;
 
-namespace DiscordBotWebApi.Bot
+namespace DiscordBotWebApi.Bot.Handlers
 {
-    public class OnRoleUpdateHandler
-    {
-        private readonly UserService _userManager;
+	public class OnRoleUpdateHandler
+	{
+		private readonly UserService _userManager;
 
-        public OnRoleUpdateHandler(UserService userManager)
+		public OnRoleUpdateHandler(UserService userManager)
 		{
 			_userManager = userManager;
-        }
+		}
 
 		public async Task Handler(SocketRole oldRole, SocketRole newRole)
 		{

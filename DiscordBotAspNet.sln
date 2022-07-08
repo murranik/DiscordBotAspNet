@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration", "Administration\Administration.csproj", "{43F61A6E-C2C6-4EF3-A1C1-20F875177123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOModels", "DTOModels\DTOModels.csproj", "{E8559488-8947-469C-A74A-071D736BAB52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOModels", "DTOModels\DTOModels.csproj", "{E8559488-8947-469C-A74A-071D736BAB52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

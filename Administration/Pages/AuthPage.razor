@@ -61,6 +61,7 @@ input {
 }
 
 input[type="text"],
+input[type="password"],
 input[type="email"] {
   width: 100%;
   padding: 0 0 0 10px;
@@ -77,26 +78,31 @@ input[type="email"] {
   background: none;
 }
 input[type="text"]:focus,
+input[type="password"]:focus,
 input[type="email"]:focus {
   border-color: #3ca9e2;
 }
 input[type="text"]:focus:invalid,
+input[type="password"]:focus:invalid,
 input[type="email"]:focus:invalid {
   color: #cc1e2b;
   border-color: #cc1e2b;
 }
 input[type="text"]:valid ~ .validation,
+input[type="password"]:valid ~ .validation,
 input[type="email"]:valid ~ .validation {
   display: block;
   border-color: #0C0;
 }
 input[type="text"]:valid ~ .validation span,
+input[type="password"]:valid ~ .validation span,
 input[type="email"]:valid ~ .validation span {
   background: #0C0;
   position: absolute;
   border-radius: 6px;
 }
 input[type="text"]:valid ~ .validation span:first-child,
+input[type="password"]:valid ~ .validation span:first-child,
 input[type="email"]:valid ~ .validation span:first-child {
   top: 30px;
   left: 14px;
@@ -106,6 +112,7 @@ input[type="email"]:valid ~ .validation span:first-child {
           transform: rotate(-45deg);
 }
 input[type="text"]:valid ~ .validation span:last-child,
+input[type="password"]:valid ~ .validation span:last-child,
 input[type="email"]:valid ~ .validation span:last-child {
   top: 35px;
   left: 8px;
@@ -170,12 +177,12 @@ input[type="submit"]:hover {
          <input type="email" id="email" name="email" placeholder="Email Address" required @bind=admin.Email><i class="validation"><span></span><span></span></i>
       </p>
       <p>
-         <input type="password" id="password" name="password" placeholder="Password" required @bind=admin.Password><span></span><span></span>
+         <input type="password" id="text" name="text" placeholder="Password" required @bind=admin.Password><span></span><span></span>
       </p>
 
       <p>
       <div class="select-box">
-         <select>
+         <select @bind="admin.GuildId">
              @foreach (var guild in Guilds)
                     {
                         <option value="@guild.Name">@guild.Name</option>
@@ -184,7 +191,7 @@ input[type="submit"]:hover {
       </div>
       </p>
       <p>
-         <input type="submit" id="login" value="Login">
+         <input type="button" id="login" value="Login" @onclick="@(e => sendCode())">
       </p>
    </form>
    <div id="create-account-wrap">
@@ -193,16 +200,16 @@ input[type="submit"]:hover {
 </div>
 
 @code {
-    Administrator admin = new();
+    public AdministratorDto admin = new();
     public List<AdministrationGuildDTO> Guilds = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Guilds = await HttpClient.GetFromJsonAsync<List<AdministrationGuildDTO>>("https://localhost:7160/Get/SocketGuild");
+        Guilds = await HttpClient.GetFromJsonAsync<List<AdministrationGuildDTO>>("https://localhost:7160/api/Get/SocketGuild");
     }
 
     public async void sendCode()
     {
-        
+        await HttpClient.PostAsJsonAsync("https://localhost:7160/api/Auth/Register", admin);
     }
 }

@@ -2,7 +2,7 @@
 {
     public class DiscordOptions
     {
-        public const String Title = "DiscordOptions";
-        public String Token { get; set; }
+        public const string Title = "DiscordOptions";
+        public string Token { get; set; }
     }
 }

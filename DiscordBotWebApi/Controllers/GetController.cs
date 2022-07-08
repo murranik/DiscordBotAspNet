@@ -6,7 +6,7 @@ using System.Reflection;
 namespace DiscordBotWebApi.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
+	[Route("api/[controller]")]
 	public class GetController : ControllerBase
 	{
 		private readonly GetService _getService;

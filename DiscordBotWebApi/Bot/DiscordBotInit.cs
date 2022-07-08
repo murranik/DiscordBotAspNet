@@ -1,10 +1,11 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using DiscordBotWebApi.Bot.Handlers;
 using Infrastructure.Services;
 
 namespace DiscordBotWebApi.Bot
 {
-    public static class DiscordBotInit
+	public static class DiscordBotInit
     {
         public static IServiceCollection AddClient(this IServiceCollection services, IConfiguration configuration)
         {   

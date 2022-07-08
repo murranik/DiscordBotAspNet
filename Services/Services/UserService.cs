@@ -130,16 +130,18 @@ namespace Infrastructure.Services
 
         public async Task AddRole(DiscordRole role)
         {
-            if (await _roleRepository.GetBySpecAsync(new CheckIsRoleExistSpec(role.DiscordId)) == null)
+            if (!_discordBotContext.Roles.Any(x => x.DiscordId == role.DiscordId)) 
             {
-                await _roleRepository.AddAsync(role);
+                await _discordBotContext.Roles.AddAsync(role);
+                await _discordBotContext.SaveChangesAsync();
             }
+                
         }
 
         public async Task UpdateRole(DiscordRole role)
         {
-            //Todo fix update
-            await _roleRepository.UpdateAsync(role);
+            _discordBotContext.Roles.Update(role);
+            await _discordBotContext.SaveChangesAsync();
         } 
 
 

@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
 using Infrastructure.Services;
 
-namespace DiscordBotWebApi.Bot
+namespace DiscordBotWebApi.Bot.Handlers
 {
 	public class OnRoleDeleteHandler
 	{

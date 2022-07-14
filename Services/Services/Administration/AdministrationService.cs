@@ -21,9 +21,9 @@ namespace Infrastructure.Services.Administration
 			await _discordBotContext.SaveChangesAsync();
 		}
 
-		public async Task<Administrator> FindAdministratorAsyns(string administratorId) 
+		public async Task<Administrator> FindAdministratorAsyns(string id) 
 		{
-			return await _discordBotContext.Administrators.FindAsync(administratorId);
+			return await _discordBotContext.Administrators.FindAsync(id);
 		}
 
 		public bool IsExistEmail(string administratorEmail)

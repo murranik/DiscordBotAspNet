@@ -1,6 +1,7 @@
 import 'package:discordbotadminui/Components/DataTableCell/DataTableCell.dart';
 import 'package:discordbotadminui/Components/DataTableCell/DataTableTextFieldCell.dart';
 import 'package:discordbotadminui/Components/DataTableCell/DataTableToolsCell.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Models/DiscordUser.dart';
 import 'package:discordbotadminui/Services/DiscordBotApiService.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +45,10 @@ class _UsersPageState extends State<UsersPage> {
             ],
           ),
           FutureBuilder(
-            future: DiscordBotApiService.fetchUsers(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<DiscordUser>> snapshot) {
+            future: DiscordBotApiService.fetchData<DiscordUser>(
+                "https://localhost:5001/api/Get/DiscordUser"),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
               var edit = false;
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
@@ -121,7 +123,10 @@ class _UsersPageState extends State<UsersPage> {
                   } else {
                     return Expanded(
                         child: Center(
-                      child: Text("No data", style: TextStyle(fontSize: 10.sp)),
+                      child: Text("No data",
+                          style: TextStyle(
+                              fontSize: 10.sp,
+                              color: ColorHelper.defaultTextColor)),
                     ));
                   }
                 case ConnectionState.waiting:
@@ -131,15 +136,17 @@ class _UsersPageState extends State<UsersPage> {
                           child: SizedBox(
                             width: 20.sp,
                             height: 20.sp,
-                            child: CircularProgressIndicator(
-                              color: Colors.green,
+                            child: const CircularProgressIndicator(
+                              color: ColorHelper.activeColor,
                             ),
                           )));
                 default:
                   return Expanded(
                       child: Center(
                     child: Text("No data default",
-                        style: TextStyle(fontSize: 10.sp)),
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: ColorHelper.defaultTextColor)),
                   ));
               }
             },

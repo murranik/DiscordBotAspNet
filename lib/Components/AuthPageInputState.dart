@@ -1,27 +1,28 @@
 import 'package:discordbotadminui/Enums/ValidationTypes.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class RegisterPageInput extends StatefulWidget {
+class AuthPageInput extends StatefulWidget {
   final TextEditingController controller;
   final String text;
   final ValidationTypes validationType;
   final Function validationResultCallback;
   final Color validationColor;
-  const RegisterPageInput({
+  const AuthPageInput({
     Key? key,
     required this.controller,
     required this.text,
     required this.validationType,
     required this.validationResultCallback,
-    this.validationColor = Colors.green,
+    this.validationColor = ColorHelper.activeColor,
   }) : super(key: key);
 
   @override
-  State<RegisterPageInput> createState() => _RegisterPageInputState();
+  State<AuthPageInput> createState() => _AuthPageInputState();
 }
 
-class _RegisterPageInputState extends State<RegisterPageInput> {
+class _AuthPageInputState extends State<AuthPageInput> {
   var valid = false;
   var repeatValid = false;
   var repeatConttoller = TextEditingController();
@@ -81,11 +82,11 @@ class _RegisterPageInputState extends State<RegisterPageInput> {
                     suffixIcon: valid
                         ? const Icon(
                             Icons.done,
-                            color: Colors.green,
+                            color: ColorHelper.activeColor,
                           )
                         : const Icon(
                             Icons.close,
-                            color: Colors.red,
+                            color: ColorHelper.cancelColor,
                           ),
                     labelStyle: TextStyle(
                         fontSize: 5.sp, color: Color.fromARGB(150, 0, 0, 0)),

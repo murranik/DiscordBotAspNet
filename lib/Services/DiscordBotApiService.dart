@@ -46,34 +46,10 @@ class DiscordBotApiService {
     return null;
   }
 
-  static Future<List<AdministrationGuild>> fetchGuilds() async {
-    var request =
-        await get(Uri.parse('https://localhost:5001/api/Get/SocketGuild'));
-
+  static Future<List<T>> fetchData<T>(String uri) async {
+    var request = await get(Uri.parse(uri));
     if (request.statusCode == 200) {
-      return getModelsListFromMap<AdministrationGuild>(request);
-    }
-
-    return [];
-  }
-
-  static Future<List<DiscordUser>> fetchUsers() async {
-    var request =
-        await get(Uri.parse('https://localhost:5001/api/Get/DiscordUser'));
-
-    if (request.statusCode == 200) {
-      return getModelsListFromMap<DiscordUser>(request);
-    }
-
-    return [];
-  }
-
-  static Future<List<DiscordRole>> fetchRoles() async {
-    var request =
-        await get(Uri.parse('https://localhost:5001/api/Get/DiscordRole'));
-
-    if (request.statusCode == 200) {
-      return getModelsListFromMap<DiscordRole>(request);
+      return getModelsListFromMap<T>(request);
     }
 
     return [];

@@ -1,28 +1,79 @@
 import 'package:discordbotadminui/Components/GuildsDropDownButton.dart';
-import 'package:discordbotadminui/Components/RegisterPageInput.dart';
-import 'package:discordbotadminui/Enums/ValidationTypes.dart';
+import 'package:discordbotadminui/Components/AuthPageInputState.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Models/Administrator.dart';
-import 'package:discordbotadminui/Pages/RegisterPage.dart';
+import 'package:discordbotadminui/Models/AuthPageData.dart';
 import 'package:discordbotadminui/Services/DiscordBotApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class LoginPage extends StatefulWidget {
-  static const String route = '/login';
-  const LoginPage({Key? key}) : super(key: key);
+class AuthPage extends StatefulWidget {
+  static const String route = '/auth';
+
+  final List<AuthPageData> data;
+  final String title;
+  final String footerButtonText;
+  final String footerText;
+  final String footerButtonRoute;
+
+  const AuthPage(
+      {Key? key,
+      required this.data,
+      required this.title,
+      required this.footerButtonText,
+      required this.footerText,
+      required this.footerButtonRoute})
+      : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AuthPage> createState() => _AuthPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  var usernameController = TextEditingController();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+class _AuthPageState extends State<AuthPage> {
   // ignore: prefer_typing_uninitialized_variables
   var guildId;
-  var validationResults = [false, false, false];
-  var validationColors = [Colors.green, Colors.green, Colors.green];
+  List<bool> validationResults = [];
+  List<Color> validationColors = [];
+
+  @override
+  void initState() {
+    validationResults.addAll(widget.data.map((e) => false).toList());
+    validationColors
+        .addAll(widget.data.map((e) => ColorHelper.activeColor).toList());
+    super.initState();
+  }
+
+  Future register() async {
+    if (validationResults.any((element) => element == false)) {
+      for (var i = 0; i < validationResults.length; i++) {
+        if (!validationResults[i]) {
+          validationColors[i] = Colors.red;
+        } else {
+          validationColors[i] = Colors.green;
+        }
+      }
+    } else {
+      if (!(await DiscordBotApiService.UserExist(
+              widget.data[1].controller.text) ??
+          true)) {
+        var admin = Administrator(
+            nickname: widget.data[0].controller.text,
+            email: widget.data[1].controller.text,
+            password: widget.data[2].controller.text,
+            guildId: guildId);
+        await DiscordBotApiService.registerUser(admin);
+        for (var i = 0; i < validationColors.length; i++) {
+          validationColors[i] = Colors.green;
+        }
+      } else {
+        validationResults[1] = false;
+        validationColors[1] = Colors.red;
+        widget.data[1].controller.clear();
+        setState(() {});
+      }
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +87,13 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: ColorHelper.serverStatusColors.defaultShadowColor,
                     spreadRadius: 5,
                     blurRadius: 7,
                     offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
-                color: Colors.white60,
+                color: ColorHelper.serverStatusColors.defaultBackgroundColor,
               ),
               child: Container(
                 margin: EdgeInsets.all(3.sp),
@@ -51,38 +102,21 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Login",
+                      widget.title,
                       style: TextStyle(fontSize: 12.sp),
                     ),
                     Column(
                       children: [
-                        RegisterPageInput(
-                          controller: usernameController,
-                          text: "Username",
-                          validationType: ValidationTypes.notEmpty,
-                          validationColor: validationColors[0],
-                          validationResultCallback: (result) {
-                            validationResults[0] = result;
-                          },
-                        ),
-                        RegisterPageInput(
-                          controller: emailController,
-                          text: "Email",
-                          validationType: ValidationTypes.email,
-                          validationColor: validationColors[1],
-                          validationResultCallback: (result) {
-                            validationResults[1] = result;
-                          },
-                        ),
-                        RegisterPageInput(
-                          controller: passwordController,
-                          text: "Password",
-                          validationType: ValidationTypes.notEmpty,
-                          validationColor: validationColors[2],
-                          validationResultCallback: (result) {
-                            validationResults[2] = result;
-                          },
-                        ),
+                        for (var i = 0; i < widget.data.length; i++)
+                          AuthPageInput(
+                            controller: widget.data[i].controller,
+                            text: widget.data[i].label,
+                            validationType: widget.data[i].validationType,
+                            validationColor: validationColors[i],
+                            validationResultCallback: (result) {
+                              validationResults[i] = result;
+                            },
+                          )
                       ],
                     ),
                     GuildsDropDownButton(
@@ -97,27 +131,20 @@ class _LoginPageState extends State<LoginPage> {
                           margin: EdgeInsets.all(3.sp),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(7),
-                              border: Border.all(color: Colors.green)),
+                              border:
+                                  Border.all(color: ColorHelper.activeColor)),
                           child: InkWell(
                             mouseCursor: SystemMouseCursors.click,
                             borderRadius: BorderRadius.circular(25),
-                            onTap: () async {
-                              if (validationResults
-                                  .any((element) => element == false)) {
-                                validationColors
-                                    .forEach((element) => element = Colors.red);
-                              } else {
-                                validationColors.forEach(
-                                    (element) => element = Colors.green);
-                              }
-                            },
+                            onTap: register,
                             child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 2.sp),
                                 child: Text(
                                   "Continue",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 6.sp, color: Colors.black),
+                                      fontSize: 6.sp,
+                                      color: ColorHelper.defaultTextColor),
                                 )),
                           ),
                         )),
@@ -127,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account?",
+                          widget.footerText,
                           style: TextStyle(
                             fontSize: 4.sp,
                           ),
@@ -135,12 +162,12 @@ class _LoginPageState extends State<LoginPage> {
                         TextButton(
                             onPressed: () {
                               Navigator.of(context)
-                                  .pushNamed(RegisterPage.route);
+                                  .popAndPushNamed(widget.footerButtonRoute);
                             },
                             child: Text(
-                              "Register",
+                              widget.footerButtonText,
                               style: TextStyle(
-                                  color: Colors.green,
+                                  color: ColorHelper.activeColor,
                                   fontSize: 4.sp,
                                   decoration: TextDecoration.underline),
                             ))

@@ -1,3 +1,4 @@
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Models/AdministrationGuild.dart';
 import 'package:discordbotadminui/Services/DiscordBotApiService.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -14,9 +15,9 @@ class GuildsDropDownButton extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 3.sp),
       child: FutureBuilder(
-          future: DiscordBotApiService.fetchGuilds(),
-          builder:
-              (context, AsyncSnapshot<List<AdministrationGuild>> snapshot) {
+          future: DiscordBotApiService.fetchData<AdministrationGuild>(
+              "https://localhost:5001/api/Get/SocketGuild"),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
                 {
@@ -35,7 +36,7 @@ class GuildsDropDownButton extends StatelessWidget {
                         : snapshot.data!
                             .map((e) => e.name)
                             .toList()
-                            .map<DropdownMenuItem<String>>((String value) {
+                            .map<DropdownMenuItem<String>>((dynamic value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -52,23 +53,26 @@ class GuildsDropDownButton extends StatelessWidget {
                             .id);
                       }
                     },
-                    barrierColor: const Color.fromARGB(130, 232, 226, 220),
+                    barrierColor:
+                        ColorHelper.dropdownButtonColors.defaultBarrierColor,
                     iconSize: 6.sp,
-                    iconEnabledColor: Colors.black,
-                    iconDisabledColor: Colors.grey,
+                    iconEnabledColor:
+                        ColorHelper.dropdownButtonColors.defaultIconEnableColor,
+                    iconDisabledColor: ColorHelper
+                        .dropdownButtonColors.defaultIconDisabledColor,
                     buttonHeight: 50,
                     buttonWidth: 24.w,
                     buttonPadding: const EdgeInsets.only(left: 14, right: 14),
                     buttonDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: Colors.green,
+                        color: ColorHelper.activeColor,
                       ),
                       color: Colors.transparent,
                     ),
                     dropdownDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7),
-                      color: Colors.white,
+                      color: ColorHelper.activeColor,
                     ),
                     dropdownMaxHeight: 200,
                     dropdownWidth: 24.w,
@@ -80,7 +84,7 @@ class GuildsDropDownButton extends StatelessWidget {
               case ConnectionState.waiting:
                 {
                   return const CircularProgressIndicator(
-                    color: Colors.green,
+                    color: ColorHelper.activeColor,
                   );
                 }
               default:

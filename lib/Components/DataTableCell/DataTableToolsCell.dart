@@ -1,8 +1,10 @@
-import 'package:discordbotadminui/Interfaces/IDataTableCell.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
+import 'package:discordbotadminui/Interfaces/DataTableCellInterface.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class DataTableToolsCell extends StatefulWidget implements IDataTableCell {
+class DataTableToolsCell extends StatefulWidget
+    implements DataTableCellInterface {
   @override
   Color? backgroundColor;
   @override
@@ -37,14 +39,16 @@ class _DataTableToolsCellState extends State<DataTableToolsCell> {
           //margin: EdgeInsets.all(1.sp),
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-              boxShadow: const [
-                BoxShadow(color: Color.fromARGB(255, 218, 217, 217))
+              boxShadow: [
+                BoxShadow(
+                    color:
+                        ColorHelper.dataTableCellColors.defaultBoxShadowColor)
               ],
               color: widget.edit
-                  ? const Color.fromARGB(141, 9, 231, 9)
-                  : const Color.fromARGB(255, 218, 217, 217),
+                  ? ColorHelper.dataTableCellColors.defaultEditColor
+                  : ColorHelper.dataTableCellColors.defaultBoxShadowColor,
               border: Border.fromBorderSide(BorderSide(
-                color: const Color.fromARGB(255, 200, 200, 200),
+                color: ColorHelper.dataTableCellColors.defaultBorderColor,
                 width: 0.5.sp,
               ))),
           child: Row(
@@ -66,8 +70,8 @@ class _DataTableToolsCellState extends State<DataTableToolsCell> {
                     icon: Icon(
                       widget.edit ? Icons.cancel : Icons.edit,
                       color: widget.edit
-                          ? const Color.fromARGB(255, 203, 42, 30)
-                          : Colors.green,
+                          ? ColorHelper.cancelColor
+                          : ColorHelper.activeColor,
                     )),
               ),
               if (widget.edit)
@@ -83,7 +87,7 @@ class _DataTableToolsCellState extends State<DataTableToolsCell> {
                       },
                       icon: const Icon(
                         Icons.check_circle_outline,
-                        color: Colors.green,
+                        color: ColorHelper.activeColor,
                       )),
                 )
             ],

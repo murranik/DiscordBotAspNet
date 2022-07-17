@@ -1,3 +1,4 @@
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -20,12 +21,13 @@ class NavMenuButton extends StatelessWidget {
         ),
         child: TextButton(
           style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all(Colors.green),
+            overlayColor: MaterialStateProperty.all(ColorHelper.activeColor),
           ),
           onPressed: () => opClick(),
           child: Text(
             text,
-            style: TextStyle(fontSize: 8.sp, color: Colors.white),
+            style: TextStyle(
+                fontSize: 8.sp, color: ColorHelper.defaultNavMenuTextColor),
           ),
         ));
   }

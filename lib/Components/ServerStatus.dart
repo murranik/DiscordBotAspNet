@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:discordbotadminui/Components/Timer.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Services/DiscordBotApiService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,14 +39,16 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                             borderRadius: BorderRadius.circular(15),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: ColorHelper
+                                    .serverStatusColors.defaultShadowColor,
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset: const Offset(
                                     0, 3), // changes position of shadow
                               ),
                             ],
-                            color: Colors.white60,
+                            color: ColorHelper
+                                .serverStatusColors.defaultBackgroundColor,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -53,13 +56,16 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                             children: [
                               Icon(
                                 Icons.check_circle,
-                                color: Colors.green,
+                                color:
+                                    ColorHelper.serverStatusColors.onlineColor,
                                 size: 14.sp,
                               ),
                               Text(
                                 snapshot.data!,
                                 style: TextStyle(
-                                    fontSize: 14.sp, color: Colors.green),
+                                    fontSize: 14.sp,
+                                    color: ColorHelper
+                                        .serverStatusColors.onlineColor),
                               ),
                               RefreshTimer(
                                 onEnd: () {
@@ -67,7 +73,8 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                                 },
                                 seconds: 20,
                                 timePrefix: "Remaining to check connection:",
-                                textColor: Colors.green,
+                                textColor:
+                                    ColorHelper.serverStatusColors.onlineColor,
                               )
                             ],
                           ));
@@ -80,14 +87,16 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                             borderRadius: BorderRadius.circular(15),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: ColorHelper
+                                    .serverStatusColors.defaultShadowColor,
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset: const Offset(
                                     0, 3), // changes position of shadow
                               ),
                             ],
-                            color: Colors.white60,
+                            color: ColorHelper
+                                .serverStatusColors.defaultBackgroundColor,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -95,13 +104,16 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                             children: [
                               Icon(
                                 CupertinoIcons.clear_thick_circled,
-                                color: Colors.red,
+                                color:
+                                    ColorHelper.serverStatusColors.offlineColor,
                                 size: 14.sp,
                               ),
                               Text(
                                 "Server offline",
                                 style: TextStyle(
-                                    fontSize: 14.sp, color: Colors.red),
+                                    fontSize: 14.sp,
+                                    color: ColorHelper
+                                        .serverStatusColors.offlineColor),
                               ),
                               RefreshTimer(
                                 onEnd: () {
@@ -109,7 +121,8 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                                 },
                                 seconds: 20,
                                 timePrefix: "Remaining to reconnect:",
-                                textColor: Colors.red,
+                                textColor:
+                                    ColorHelper.serverStatusColors.offlineColor,
                               )
                             ],
                           ));
@@ -125,7 +138,7 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                             width: 20.sp,
                             height: 20.sp,
                             child: const CircularProgressIndicator(
-                              color: Colors.green,
+                              color: ColorHelper.activeColor,
                             ),
                           )));
                 }

@@ -57,7 +57,6 @@ class DiscordBotApiService {
 
   static Future<String> registerUser(Administrator admin) async {
     var headers = {
-      'accept': '*/*',
       'Content-Type': 'application/json',
     };
 

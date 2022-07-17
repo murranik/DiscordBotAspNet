@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class GuildsDropDownButton extends StatelessWidget {
-  final Function setGuildId;
-  const GuildsDropDownButton({Key? key, required this.setGuildId})
+  final Function guildIdCallback;
+  const GuildsDropDownButton({Key? key, required this.guildIdCallback})
       : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class GuildsDropDownButton extends StatelessWidget {
               case ConnectionState.done:
                 {
                   if (snapshot.data != null) {
-                    setGuildId(snapshot.data!.first.id);
+                    guildIdCallback(snapshot.data!.first.id);
                   }
                   return DropdownButtonHideUnderline(
                       child: DropdownButton2(
@@ -48,7 +48,7 @@ class GuildsDropDownButton extends StatelessWidget {
                     style: TextStyle(fontSize: 5.sp),
                     onChanged: (value) {
                       if (snapshot.data != null) {
-                        setGuildId(snapshot.data!
+                        guildIdCallback(snapshot.data!
                             .firstWhere((element) => element.name == value)
                             .id);
                       }

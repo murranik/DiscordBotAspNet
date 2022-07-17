@@ -1,15 +1,14 @@
 import 'package:discordbotadminui/Components/GuildsDropDownButton.dart';
-import 'package:discordbotadminui/Components/AuthPageInputState.dart';
+import 'package:discordbotadminui/Components/AuthPageInput.dart';
 import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Models/Administrator.dart';
 import 'package:discordbotadminui/Models/AuthPageData.dart';
 import 'package:discordbotadminui/Services/DiscordBotApiService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 class AuthPage extends StatefulWidget {
-  static const String route = '/auth';
-
   final List<AuthPageData> data;
   final String title;
   final String footerButtonText;
@@ -65,6 +64,10 @@ class _AuthPageState extends State<AuthPage> {
         for (var i = 0; i < validationColors.length; i++) {
           validationColors[i] = Colors.green;
         }
+
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).popAndPushNamed(
+            "You must confirm email before using this site\nPlease follow the link in the message sent to your email");
       } else {
         validationResults[1] = false;
         validationColors[1] = Colors.red;
@@ -120,7 +123,7 @@ class _AuthPageState extends State<AuthPage> {
                       ],
                     ),
                     GuildsDropDownButton(
-                      setGuildId: (newGuildId) {
+                      guildIdCallback: (newGuildId) {
                         guildId = newGuildId;
                       },
                     ),

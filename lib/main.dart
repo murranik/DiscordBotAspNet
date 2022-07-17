@@ -4,11 +4,28 @@ import 'package:discordbotadminui/Pages/AuthPage.dart';
 import 'package:discordbotadminui/Pages/HomePage.dart';
 import 'package:discordbotadminui/Pages/RolesPage.dart';
 import 'package:discordbotadminui/Pages/UsersPage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+class NoTransitionsBuilder extends PageTransitionsBuilder {
+  const NoTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T>? route,
+    BuildContext? context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget? child,
+  ) {
+    // only return the child without warping it with animations
+    return child!;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +36,21 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
-          theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Open Sans"),
+          theme: ThemeData(
+            primarySwatch: Colors.green,
+            fontFamily: "Open Sans",
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: kIsWeb
+                  ? {
+                      // No animations for every OS if the app running on the web
+                      for (final platform in TargetPlatform.values)
+                        platform: const NoTransitionsBuilder(),
+                    }
+                  : const {
+                      // handel other platforms you are targeting
+                    },
+            ),
+          ),
           debugShowCheckedModeBanner: false,
           initialRoute: HomePage.route,
           themeMode: ThemeMode.dark,

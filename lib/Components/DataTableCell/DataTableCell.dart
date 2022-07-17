@@ -1,8 +1,9 @@
-import 'package:discordbotadminui/Interfaces/IDataTableCell.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
+import 'package:discordbotadminui/Interfaces/DataTableCellInterface.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class DataTableCell extends StatelessWidget implements IDataTableCell {
+class DataTableCell extends StatelessWidget implements DataTableCellInterface {
   @override
   Color? backgroundColor;
   @override
@@ -22,12 +23,13 @@ class DataTableCell extends StatelessWidget implements IDataTableCell {
         //margin: EdgeInsets.all(1.sp),
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(color: Color.fromARGB(255, 218, 217, 217))
+            boxShadow: [
+              BoxShadow(
+                  color: ColorHelper.dataTableCellColors.defaultBoxShadowColor)
             ],
             color: backgroundColor ?? Colors.transparent,
             border: Border.fromBorderSide(BorderSide(
-              color: const Color.fromARGB(255, 200, 200, 200),
+              color: ColorHelper.dataTableCellColors.defaultBorderColor,
               width: 0.5.sp,
             ))),
         child: Text(

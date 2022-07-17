@@ -1,10 +1,12 @@
-import 'package:discordbotadminui/Interfaces/IDataTableCell.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
+import 'package:discordbotadminui/Interfaces/DataTableCellInterface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sizer/sizer.dart';
 
-class DataTableTextFieldCell extends StatelessWidget implements IDataTableCell {
+class DataTableTextFieldCell extends StatelessWidget
+    implements DataTableCellInterface {
   @override
   Color? backgroundColor;
 
@@ -29,12 +31,14 @@ class DataTableTextFieldCell extends StatelessWidget implements IDataTableCell {
           height: 8.sp,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-              boxShadow: const [
-                BoxShadow(color: Color.fromARGB(255, 218, 217, 217))
+              boxShadow: [
+                BoxShadow(
+                    color:
+                        ColorHelper.dataTableCellColors.defaultBoxShadowColor)
               ],
               color: backgroundColor ?? Colors.transparent,
               border: Border.fromBorderSide(BorderSide(
-                color: const Color.fromARGB(255, 200, 200, 200),
+                color: ColorHelper.dataTableCellColors.defaultBorderColor,
                 width: 0.5.sp,
               ))),
           child: Row(
@@ -43,7 +47,10 @@ class DataTableTextFieldCell extends StatelessWidget implements IDataTableCell {
                   child: TextField(
                 controller: _editController,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                style: TextStyle(fontSize: 6.sp, color: Colors.black),
+                style: TextStyle(
+                    fontSize: 6.sp,
+                    color:
+                        ColorHelper.dataTableCellColors.defaultInputTextColor),
               ))
             ],
           )),

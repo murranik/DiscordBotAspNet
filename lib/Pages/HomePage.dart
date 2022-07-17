@@ -1,6 +1,6 @@
 import 'package:discordbotadminui/Components/ServerStatus.dart';
+import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Pages/NotFoundPage.dart';
-import 'package:discordbotadminui/Pages/RegisterPage.dart';
 import 'package:discordbotadminui/Pages/RolesPage.dart';
 import 'package:discordbotadminui/Pages/UsersPage.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final activeColor = Colors.green;
-  var navButtonsList = [Colors.green, null, null];
+  var navButtonsList = [ColorHelper.activeColor, null, null];
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         Expanded(
           flex: 1,
           child: Container(
-            color: const Color(0xff333333),
+            color: ColorHelper.defaultNavMenuBackgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -35,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                     NavMenuButton(
                       text: "Home",
                       opClick: () {
-                        navButtonsList[0] = activeColor;
+                        navButtonsList[0] = ColorHelper.activeColor;
                         navButtonsList[1] = null;
                         navButtonsList[2] = null;
                         setState(() {});
@@ -46,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                       text: "Users",
                       opClick: () {
                         navButtonsList[0] = null;
-                        navButtonsList[1] = activeColor;
+                        navButtonsList[1] = ColorHelper.activeColor;
                         navButtonsList[2] = null;
                         setState(() {});
                       },
@@ -57,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                       opClick: () {
                         navButtonsList[0] = null;
                         navButtonsList[1] = null;
-                        navButtonsList[2] = activeColor;
+                        navButtonsList[2] = ColorHelper.activeColor;
                         setState(() {});
                       },
                       choosedColor: navButtonsList[2],
@@ -66,12 +65,12 @@ class _HomePageState extends State<HomePage> {
                 ),
                 IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(RegisterPage.route);
+                      Navigator.of(context).pushNamed("/register");
                     },
                     iconSize: 10.sp,
                     icon: const Icon(
                       Icons.person,
-                      color: Colors.white,
+                      color: ColorHelper.defaultNavMenuTextColor,
                     ))
               ],
             ),
@@ -84,13 +83,13 @@ class _HomePageState extends State<HomePage> {
               child: Builder(
                 builder: (BuildContext context) {
                   if (navButtonsList[1] != null) {
-                    return UsersPage();
+                    return const UsersPage();
                   } else if (navButtonsList[2] != null) {
-                    return RolesPage();
+                    return const RolesPage();
                   } else if (navButtonsList[0] != null) {
-                    return ServerStatusComponent();
+                    return const ServerStatusComponent();
                   } else {
-                    return NotFoundPage();
+                    return const NotFoundPage();
                   }
                 },
               )),

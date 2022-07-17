@@ -1,6 +1,7 @@
+import 'package:discordbotadminui/Enums/ValidationTypes.dart';
+import 'package:discordbotadminui/Models/AuthPageData.dart';
+import 'package:discordbotadminui/Pages/AuthPage.dart';
 import 'package:discordbotadminui/Pages/HomePage.dart';
-import 'package:discordbotadminui/Pages/LoginPage.dart';
-import 'package:discordbotadminui/Pages/RegisterPage.dart';
 import 'package:discordbotadminui/Pages/RolesPage.dart';
 import 'package:discordbotadminui/Pages/UsersPage.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,52 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.dark,
           routes: {
             HomePage.route: (context) => const HomePage(),
-            RegisterPage.route: (context) => const RegisterPage(),
-            LoginPage.route: (context) => const LoginPage(),
+            "/login": (context) => AuthPage(
+                  data: [
+                    AuthPageData(
+                      controller: TextEditingController(),
+                      label: "Username",
+                      validationType: ValidationTypes.notEmpty,
+                    ),
+                    AuthPageData(
+                      controller: TextEditingController(),
+                      label: "Email",
+                      validationType: ValidationTypes.email,
+                    ),
+                    AuthPageData(
+                      controller: TextEditingController(),
+                      label: "Password",
+                      validationType: ValidationTypes.notEmpty,
+                    ),
+                  ],
+                  footerButtonRoute: "/register",
+                  footerButtonText: "Register",
+                  footerText: "Don't have an account?",
+                  title: "Login",
+                ),
+            "/register": (context) => AuthPage(
+                  data: [
+                    AuthPageData(
+                      controller: TextEditingController(),
+                      label: "Username",
+                      validationType: ValidationTypes.notEmpty,
+                    ),
+                    AuthPageData(
+                      controller: TextEditingController(),
+                      label: "Email",
+                      validationType: ValidationTypes.email,
+                    ),
+                    AuthPageData(
+                      controller: TextEditingController(),
+                      label: "Password",
+                      validationType: ValidationTypes.repeat,
+                    ),
+                  ],
+                  footerButtonRoute: "/login",
+                  footerButtonText: "Login",
+                  footerText: "Already have an account?",
+                  title: "Register",
+                ),
             UsersPage.route: (context) => const UsersPage(),
             RolesPage.route: (context) => const RolesPage(),
           },

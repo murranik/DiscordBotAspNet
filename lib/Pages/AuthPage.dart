@@ -6,6 +6,7 @@ import 'package:discordbotadminui/Models/AuthPageData.dart';
 import 'package:discordbotadminui/Services/DiscordBotApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class AuthPage extends StatefulWidget {
@@ -66,8 +67,9 @@ class _AuthPageState extends State<AuthPage> {
         }
 
         // ignore: use_build_context_synchronously
-        Navigator.of(context).popAndPushNamed(
-            "You must confirm email before using this site\nPlease follow the link in the message sent to your email");
+        GoRouter.of(context).go('/systemmessage',
+            extra:
+                "You must confirm email before using this site!\nPlease follow the link in the message sent to your email.");
       } else {
         validationResults[1] = false;
         validationColors[1] = Colors.red;
@@ -164,8 +166,7 @@ class _AuthPageState extends State<AuthPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .popAndPushNamed(widget.footerButtonRoute);
+                              GoRouter.of(context).go(widget.footerButtonRoute);
                             },
                             child: Text(
                               widget.footerButtonText,

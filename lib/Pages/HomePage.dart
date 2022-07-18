@@ -5,6 +5,7 @@ import 'package:discordbotadminui/Pages/RolesPage.dart';
 import 'package:discordbotadminui/Pages/UsersPage.dart';
 import 'package:flutter/material.dart';
 import 'package:discordbotadminui/Components/NavMenuButton.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed("/register");
+                      GoRouter.of(context).go("/register");
                     },
                     iconSize: 10.sp,
                     icon: const Icon(

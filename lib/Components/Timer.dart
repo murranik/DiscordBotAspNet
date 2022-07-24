@@ -53,7 +53,7 @@ class _RefreshTimerState extends State<RefreshTimer> {
   Widget build(BuildContext context) {
     return Text(
       "${widget.timePrefix} ${intToTimeLeft(_countDownValue)}",
-      style: TextStyle(fontSize: 14.sp, color: widget.textColor),
+      style: TextStyle(fontSize: 9.sp, color: widget.textColor),
     );
   }
 
@@ -72,7 +72,7 @@ class _RefreshTimerState extends State<RefreshTimer> {
     String secondsLeft =
         s.toString().length < 2 ? "0" + s.toString() : s.toString();
 
-    String result = "$minuteLeft:$secondsLeft";
+    String result = "$secondsLeft";
 
     return result;
   }

@@ -37,22 +37,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _router = GoRouter(
-      initialLocation: '/',
+    final router = GoRouter(
+      initialLocation: !UserService.confirmedEmail ? '/' : '/home',
       routes: [
         GoRoute(
-          path: '/',
+          path: '/home',
           builder: (context, state) => const HomePage(),
         ),
         GoRoute(
-          path: '/login',
+          path: '/',
           builder: (context, state) => AuthPage(
             data: [
-              AuthPageData(
-                controller: TextEditingController(),
-                label: "Username",
-                validationType: ValidationTypes.notEmpty,
-              ),
               AuthPageData(
                 controller: TextEditingController(),
                 label: "Email",
@@ -70,7 +65,7 @@ class MyApp extends StatelessWidget {
             title: "Login",
           ),
         ),
-        GoRoute(
+        /*GoRoute(
           path: '/register',
           builder: (context, state) => AuthPage(
             data: [
@@ -95,7 +90,7 @@ class MyApp extends StatelessWidget {
             footerText: "Already have an account?",
             title: "Register",
           ),
-        ),
+        ),*/
         GoRoute(
           path: UsersPage.route,
           builder: (context, state) => const UsersPage(),
@@ -126,9 +121,9 @@ class MyApp extends StatelessWidget {
 
     return Sizer(
       builder: (context, orientation, deviceType) => MaterialApp.router(
-        routeInformationParser: _router.routeInformationParser,
-        routeInformationProvider: _router.routeInformationProvider,
-        routerDelegate: _router.routerDelegate,
+        routeInformationParser: router.routeInformationParser,
+        routeInformationProvider: router.routeInformationProvider,
+        routerDelegate: router.routerDelegate,
         theme: ThemeData(
           primarySwatch: Colors.green,
           fontFamily: "Open Sans",

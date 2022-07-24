@@ -8,14 +8,12 @@ class AuthPageInput extends StatefulWidget {
   final String text;
   final ValidationTypes validationType;
   final Function validationResultCallback;
-  final Color validationColor;
   const AuthPageInput({
     Key? key,
     required this.controller,
     required this.text,
     required this.validationType,
     required this.validationResultCallback,
-    this.validationColor = ColorHelper.activeColor,
   }) : super(key: key);
 
   @override
@@ -31,13 +29,14 @@ class _AuthPageInputState extends State<AuthPageInput> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 3.sp),
+      height: widget.validationType == ValidationTypes.repeat ? 17.h : 8.h,
       child: Column(children: [
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               child: TextField(
-                style: TextStyle(fontSize: 5.sp),
+                style: TextStyle(fontSize: 4.sp),
                 controller: widget.controller,
                 onChanged: (value) {
                   switch (widget.validationType) {
@@ -92,10 +91,11 @@ class _AuthPageInputState extends State<AuthPageInput> {
                         fontSize: 5.sp, color: Color.fromARGB(150, 0, 0, 0)),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(7),
-                        borderSide: BorderSide(color: widget.validationColor)),
+                        borderSide: BorderSide(color: ColorHelper.activeColor)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(7),
-                        borderSide: BorderSide(color: widget.validationColor))),
+                        borderSide:
+                            BorderSide(color: ColorHelper.activeColor))),
               ),
             ),
           ],
@@ -108,7 +108,7 @@ class _AuthPageInputState extends State<AuthPageInput> {
               children: [
                 Expanded(
                   child: TextField(
-                    style: TextStyle(fontSize: 5.sp),
+                    style: TextStyle(fontSize: 4.sp),
                     controller: repeatConttoller,
                     onChanged: (value) {
                       if (value == widget.controller.text) {
@@ -141,11 +141,11 @@ class _AuthPageInputState extends State<AuthPageInput> {
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(7),
                             borderSide:
-                                BorderSide(color: widget.validationColor)),
+                                BorderSide(color: ColorHelper.activeColor)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(7),
                             borderSide:
-                                BorderSide(color: widget.validationColor))),
+                                BorderSide(color: ColorHelper.activeColor))),
                   ),
                 ),
               ],

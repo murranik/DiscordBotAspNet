@@ -32,7 +32,7 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                       builder: (BuildContext context, update) {
                     if (snapshot.data != null) {
                       return Container(
-                          width: 85.w,
+                          width: 60.w,
                           alignment: Alignment.center,
                           padding: EdgeInsets.all(3.sp),
                           decoration: BoxDecoration(
@@ -58,12 +58,12 @@ class _ServerStatusComponentState extends State<ServerStatusComponent> {
                                 Icons.check_circle,
                                 color:
                                     ColorHelper.serverStatusColors.onlineColor,
-                                size: 14.sp,
+                                size: 9.sp,
                               ),
                               Text(
                                 snapshot.data!,
                                 style: TextStyle(
-                                    fontSize: 14.sp,
+                                    fontSize: 9.sp,
                                     color: ColorHelper
                                         .serverStatusColors.onlineColor),
                               ),

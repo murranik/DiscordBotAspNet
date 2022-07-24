@@ -4,11 +4,12 @@ import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Models/Administrator.dart';
 import 'package:discordbotadminui/Models/AuthPageData.dart';
 import 'package:discordbotadminui/Services/DiscordBotApiService.dart';
+import 'package:discordbotadminui/Services/UserService.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
+//Todo make super admin with all servers
 class AuthPage extends StatefulWidget {
   final List<AuthPageData> data;
   final String title;
@@ -33,49 +34,23 @@ class _AuthPageState extends State<AuthPage> {
   // ignore: prefer_typing_uninitialized_variables
   var guildId;
   List<bool> validationResults = [];
-  List<Color> validationColors = [];
 
   @override
   void initState() {
     validationResults.addAll(widget.data.map((e) => false).toList());
-    validationColors
-        .addAll(widget.data.map((e) => ColorHelper.activeColor).toList());
     super.initState();
   }
 
-  Future register() async {
-    if (validationResults.any((element) => element == false)) {
-      for (var i = 0; i < validationResults.length; i++) {
-        if (!validationResults[i]) {
-          validationColors[i] = Colors.red;
-        } else {
-          validationColors[i] = Colors.green;
-        }
-      }
-    } else {
-      if (!(await DiscordBotApiService.UserExist(
-              widget.data[1].controller.text) ??
-          true)) {
-        var admin = Administrator(
-            nickname: widget.data[0].controller.text,
-            email: widget.data[1].controller.text,
-            password: widget.data[2].controller.text,
-            guildId: guildId);
-        await DiscordBotApiService.registerUser(admin);
-        for (var i = 0; i < validationColors.length; i++) {
-          validationColors[i] = Colors.green;
-        }
-
-        // ignore: use_build_context_synchronously
-        GoRouter.of(context).go('/systemmessage',
-            extra:
-                "You must confirm email before using this site!\nPlease follow the link in the message sent to your email.");
-      } else {
-        validationResults[1] = false;
-        validationColors[1] = Colors.red;
-        widget.data[1].controller.clear();
-        setState(() {});
-      }
+  Future login() async {
+    var admin = Administrator(
+        nickname: '',
+        email: widget.data[0].controller.text,
+        password: widget.data[1].controller.text,
+        guildId: guildId);
+    var res = await DiscordBotApiService.login(admin);
+    if (res) {
+      UserService.confirmedEmail = true;
+      GoRouter.of(context).push("/home");
     }
     setState(() {});
   }
@@ -117,18 +92,18 @@ class _AuthPageState extends State<AuthPage> {
                             controller: widget.data[i].controller,
                             text: widget.data[i].label,
                             validationType: widget.data[i].validationType,
-                            validationColor: validationColors[i],
                             validationResultCallback: (result) {
                               validationResults[i] = result;
                             },
                           )
                       ],
                     ),
-                    GuildsDropDownButton(
-                      guildIdCallback: (newGuildId) {
-                        guildId = newGuildId;
-                      },
-                    ),
+                    if (widget.title == "Login")
+                      GuildsDropDownButton(
+                        guildIdCallback: (newGuildId) {
+                          guildId = newGuildId;
+                        },
+                      ),
                     Row(
                       children: [
                         Expanded(
@@ -141,7 +116,7 @@ class _AuthPageState extends State<AuthPage> {
                           child: InkWell(
                             mouseCursor: SystemMouseCursors.click,
                             borderRadius: BorderRadius.circular(25),
-                            onTap: register,
+                            onTap: login,
                             child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 2.sp),
                                 child: Text(
@@ -155,28 +130,6 @@ class _AuthPageState extends State<AuthPage> {
                         )),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.footerText,
-                          style: TextStyle(
-                            fontSize: 4.sp,
-                          ),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              GoRouter.of(context).go(widget.footerButtonRoute);
-                            },
-                            child: Text(
-                              widget.footerButtonText,
-                              style: TextStyle(
-                                  color: ColorHelper.activeColor,
-                                  fontSize: 4.sp,
-                                  decoration: TextDecoration.underline),
-                            ))
-                      ],
-                    )
                   ],
                 ),
               ))),

@@ -75,4 +75,25 @@ class DiscordBotApiService {
 
     return "";
   }
+
+  static Future<bool> login(Administrator admin) async {
+    var headers = {
+      'Content-Type': 'application/json',
+    };
+
+    var data = '''{
+      "nickname": "login",
+      "email": "${admin.email}",
+      "password": "${admin.password}",
+      "guildId": ${admin.guildId}
+    }''';
+
+    var url = Uri.parse('https://localhost:5001/api/Auth/Login');
+    var res = await post(url, headers: headers, body: data);
+    if (res.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
 }

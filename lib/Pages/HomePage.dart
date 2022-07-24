@@ -3,6 +3,7 @@ import 'package:discordbotadminui/Helpers/ColorHelper.dart';
 import 'package:discordbotadminui/Pages/NotFoundPage.dart';
 import 'package:discordbotadminui/Pages/RolesPage.dart';
 import 'package:discordbotadminui/Pages/UsersPage.dart';
+import 'package:discordbotadminui/Services/UserService.dart';
 import 'package:flutter/material.dart';
 import 'package:discordbotadminui/Components/NavMenuButton.dart';
 import 'package:go_router/go_router.dart';
@@ -27,48 +28,54 @@ class _HomePageState extends State<HomePage> {
           flex: 1,
           child: Container(
             color: ColorHelper.defaultNavMenuBackgroundColor,
+            padding: EdgeInsets.symmetric(horizontal: 3.sp),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    NavMenuButton(
-                      text: "Home",
-                      opClick: () {
-                        navButtonsList[0] = ColorHelper.activeColor;
-                        navButtonsList[1] = null;
-                        navButtonsList[2] = null;
-                        setState(() {});
-                      },
-                      choosedColor: navButtonsList[0],
-                    ),
-                    NavMenuButton(
-                      text: "Users",
-                      opClick: () {
-                        navButtonsList[0] = null;
-                        navButtonsList[1] = ColorHelper.activeColor;
-                        navButtonsList[2] = null;
-                        setState(() {});
-                      },
-                      choosedColor: navButtonsList[1],
-                    ),
-                    NavMenuButton(
-                      text: "Roles",
-                      opClick: () {
-                        navButtonsList[0] = null;
-                        navButtonsList[1] = null;
-                        navButtonsList[2] = ColorHelper.activeColor;
-                        setState(() {});
-                      },
-                      choosedColor: navButtonsList[2],
-                    ),
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      NavMenuButton(
+                        text: "Home",
+                        onClick: () {
+                          navButtonsList[0] = ColorHelper.activeColor;
+                          navButtonsList[1] = null;
+                          navButtonsList[2] = null;
+                          setState(() {});
+                        },
+                        choosedColor: navButtonsList[0],
+                        locked: !UserService.confirmedEmail,
+                      ),
+                      NavMenuButton(
+                        text: "Users",
+                        onClick: () {
+                          navButtonsList[0] = null;
+                          navButtonsList[1] = ColorHelper.activeColor;
+                          navButtonsList[2] = null;
+                          setState(() {});
+                        },
+                        choosedColor: navButtonsList[1],
+                        locked: !UserService.confirmedEmail,
+                      ),
+                      NavMenuButton(
+                        text: "Roles",
+                        onClick: () {
+                          navButtonsList[0] = null;
+                          navButtonsList[1] = null;
+                          navButtonsList[2] = ColorHelper.activeColor;
+                          setState(() {});
+                        },
+                        choosedColor: navButtonsList[2],
+                        locked: !UserService.confirmedEmail,
+                      ),
+                    ],
+                  ),
                 ),
                 IconButton(
                     onPressed: () {
                       GoRouter.of(context).go("/register");
                     },
-                    iconSize: 10.sp,
+                    iconSize: 6.sp,
                     icon: const Icon(
                       Icons.person,
                       color: ColorHelper.defaultNavMenuTextColor,
@@ -78,7 +85,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Expanded(
-          flex: 9,
+          flex: 14,
           child: Container(
               color: Colors.transparent,
               child: Builder(

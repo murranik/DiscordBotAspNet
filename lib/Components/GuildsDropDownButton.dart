@@ -14,6 +14,7 @@ class GuildsDropDownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 3.sp),
+      height: 8.h,
       child: FutureBuilder(
           future: DiscordBotApiService.fetchData<AdministrationGuild>(
               "https://localhost:5001/api/Get/SocketGuild"),
@@ -45,7 +46,7 @@ class GuildsDropDownButton extends StatelessWidget {
                     value: snapshot.data == null
                         ? "No connected guild"
                         : snapshot.data!.first.name,
-                    style: TextStyle(fontSize: 5.sp),
+                    style: TextStyle(fontSize: 4.sp),
                     onChanged: (value) {
                       if (snapshot.data != null) {
                         guildIdCallback(snapshot.data!
@@ -55,13 +56,13 @@ class GuildsDropDownButton extends StatelessWidget {
                     },
                     barrierColor:
                         ColorHelper.dropdownButtonColors.defaultBarrierColor,
-                    iconSize: 6.sp,
+                    iconSize: 4.sp,
                     iconEnabledColor:
                         ColorHelper.dropdownButtonColors.defaultIconEnableColor,
                     iconDisabledColor: ColorHelper
                         .dropdownButtonColors.defaultIconDisabledColor,
-                    buttonHeight: 50,
-                    buttonWidth: 24.w,
+                    buttonHeight: 8.h,
+                    buttonWidth: MediaQuery.of(context).size.width,
                     buttonPadding: const EdgeInsets.only(left: 14, right: 14),
                     buttonDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),

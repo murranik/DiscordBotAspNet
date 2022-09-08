@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification" Version="6.0.1" />
+    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="6.0.1" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="3.5.0" />
+    <PackageReference Include="ShikimoriSharp" Version="1.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DTOModels\DTOModels.csproj" />
+    <ProjectReference Include="..\Enums\Enums.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Options\Options.csproj" />
+  </ItemGroup>
+
+</Project>

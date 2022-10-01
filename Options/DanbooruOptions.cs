@@ -1,9 +1,8 @@
-﻿namespace DiscordBotWebApi.Options
+﻿namespace DiscordBotWebApi.Options;
+
+public class DanbooruOptions
 {
-    public class DanbooruOptions
-    {
-        public const String Title = "DanbooruOptions";
-        public String Domain { get; set; }
-        public String SafeDomain { get; set; }
-    }
+    public const String Title = "DanbooruOptions";
+    public String Domain { get; set; }
+    public String SafeDomain { get; set; }
 }

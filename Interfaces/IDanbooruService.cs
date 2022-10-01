@@ -1,8 +1,7 @@
-﻿namespace Interfaces
+﻿namespace Interfaces;
+
+public interface IDanbooruService
 {
-	public interface IDanbooruService
-	{
-		Task<string> GetRandomArt(bool cencorship = false);
-		Task<string> GetArt(string tags, bool cencorship = false);
-	}
+	Task<string> GetRandomArt(bool cencorship = false);
+	Task<string> GetArt(string tags, bool cencorship = false);
 }

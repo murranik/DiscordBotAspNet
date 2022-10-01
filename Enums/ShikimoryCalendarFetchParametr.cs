@@ -1,9 +1,8 @@
-﻿namespace Enums
+﻿namespace Enums;
+
+public enum ShikimoryCalendarFetchParametr
 {
-	public enum ShikimoryCalendarFetchParametr
-    {
-        Today,
-        DayOfWeek,
-        DayOfMonth
-    }
+    Today,
+    DayOfWeek,
+    DayOfMonth
 }

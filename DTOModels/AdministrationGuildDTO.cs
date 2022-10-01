@@ -1,8 +1,7 @@
-﻿namespace DTOModels
+﻿namespace DTOModels;
+
+public class AdministrationGuildDto
 {
-	public class AdministrationGuildDTO
-	{
-		public ulong Id { get; set; }
-		public string Name { get; set; }
-	}
+	public ulong Id { get; set; }
+	public string Name { get; set; }
 }

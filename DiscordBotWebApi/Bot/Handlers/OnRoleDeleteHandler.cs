@@ -1,20 +1,19 @@
 ﻿using Discord.WebSocket;
 using Interfaces;
 
-namespace DiscordBotWebApi.Bot.Handlers
+namespace DiscordBotWebApi.Bot.Handlers;
+
+public class OnRoleDeleteHandler
 {
-	public class OnRoleDeleteHandler
+	private readonly IUserService _userManager;
+
+	public OnRoleDeleteHandler(IUserService userManager)
 	{
-		private readonly IUserService _userManager;
+		_userManager = userManager;
+	}
 
-		public OnRoleDeleteHandler(IUserService userManager)
-		{
-			_userManager = userManager;
-		}
-
-		public async Task Handler(SocketRole role)
-		{
-			await _userManager.RemoveRole(role.Id);
-		}
+	public async Task Handler(SocketRole role)
+	{
+		await _userManager.RemoveRole(role.Id);
 	}
 }

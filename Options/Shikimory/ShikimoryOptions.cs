@@ -1,9 +1,8 @@
-﻿namespace DiscordBotWebApi.Options.Shikimory
+﻿namespace DiscordBotWebApi.Options.Shikimory;
+
+public class ShikimoryOptions
 {
-    public class ShikimoryOptions
-    {
-        public const string Title = "ShikimoryOptions";
-        public string Domain { get; set; }
-        public string ApiToken { get; set; }
-    }
+    public const string Title = "ShikimoryOptions";
+    public string Domain { get; set; }
+    public string ApiToken { get; set; }
 }

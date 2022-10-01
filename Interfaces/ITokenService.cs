@@ -1,9 +1,8 @@
-﻿namespace Interfaces
+﻿namespace Interfaces;
+
+public interface ITokenService
 {
-	public interface ITokenService
-	{
-		string Encrypt(string data);
-		string Decrypt(string cipheredData);
-		string GenerateToken(string data);
-	}
+	string Encrypt(string data);
+	string Decrypt(string cipheredData);
+	string GenerateToken(string data);
 }

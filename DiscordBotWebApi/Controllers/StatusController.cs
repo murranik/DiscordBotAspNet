@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace DiscordBotWebApi.Controllers
+namespace DiscordBotWebApi.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class StatusController : Controller
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class StatusController : Controller
+	[HttpGet]
+	public IActionResult GetStatus()
 	{
-		[HttpGet]
-		public IActionResult GetStatus()
-		{
-			return Ok("Server is currently online");
-		}
+		return Ok("Server is currently online");
 	}
 }

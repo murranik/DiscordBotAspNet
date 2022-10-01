@@ -7,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Models
+namespace Infrastructure.Models;
+
+public abstract class DiscordMessageCommand : ICommand
 {
-    public abstract class DiscordMessageCommand : ICommand
-    {
-        public abstract String Name { get; }
+    public abstract String Name { get; }
 
-        public abstract Task ExecuteAsync(DiscordSocketClient client, object data);
+    public abstract Task ExecuteAsync(DiscordSocketClient client, object data);
 
-        public abstract SlashCommandBuilder GetSlashCommandBuilder();
-    }
+    public abstract SlashCommandBuilder GetSlashCommandBuilder();
 }

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace Models;
+
+public class UserRoles
 {
-    public class UserRoles
-    {
-        public String Id { get; set; }
-        public String UserId { get; set; }
-        public String RoleId { get; set; }
-    }
+    public String Id { get; set; }
+    public String UserId { get; set; }
+    public String RoleId { get; set; }
 }

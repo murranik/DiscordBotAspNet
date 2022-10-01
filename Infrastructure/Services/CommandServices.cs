@@ -6,53 +6,52 @@ using Infrastructure.Commands.Shikimory;
 using Infrastructure.Models;
 using Interfaces;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+
+public class CommandService : ICommandService
 {
-    public class CommandService : ICommandService
+    public List<ICommand> Commands { get; }
+
+    public CommandService(IShikimoryService shikimoryService, IUserService userService, ITokenService tokenService)
     {
-        public List<ICommand> Commands { get; }
+        Commands = new List<ICommand>{
+            new RandomCommand(),
+            new RollCommands(),
+            new BulkDelete(),
+            new GetHistoryCommand(),
+            new FetchCalendarDataCommand(shikimoryService),
+            new SetupCommand(this, userService),
+            new SearchAnimeArtCommand(),
+            new RandomAnimeArt(),
+            new SearchAnimeCommand(shikimoryService),
+            new JoinToVoiceChat(),
+            new TestCipherCommand(tokenService),
+        };
+    }
 
-        public CommandService(IShikimoryService shikimoryService, IUserService userService, ITokenService tokenService)
+    public ICommand GetComand(SocketSlashCommand msg)
+    {
+        foreach (var command in Commands)
         {
-            Commands = new List<ICommand>{
-               new RandomCommand(),
-               new RollCommands(),
-               new BulkDelete(),
-               new GetHistoryCommand(),
-               new FetchCalendarDataCommand(shikimoryService),
-               new SetupCommand(this, userService),
-               new SearchAnimeArtCommand(),
-               new RandomAnimeArt(),
-               new SearchAnimeCommand(shikimoryService),
-               new JoinToVoiceChat(),
-               new TestCipherCommand(tokenService),
-            };
-        }
-
-        public ICommand GetComand(SocketSlashCommand msg)
-        {
-            foreach (var command in Commands)
+            if (command.Name == msg.CommandName)
             {
-                if (command.Name == msg.CommandName)
-                {
-                    return command;
-                }
+                return command;
             }
-
-            return null;
         }
 
-        public ICommand GetComand(SocketMessage msg)
+        return null;
+    }
+
+    public ICommand GetComand(SocketMessage msg)
+    {
+        foreach (var command in Commands)
         {
-            foreach (var command in Commands)
+            if (command.Contains(msg))
             {
-                if (command.Contains(msg))
-                {
-                    return command;
-                }
+                return command;
             }
-
-            return null;
         }
+
+        return null;
     }
 }

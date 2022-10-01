@@ -2,14 +2,13 @@
 using Discord.WebSocket;
 using Interfaces;
 
-namespace Infrastructure.Models
+namespace Infrastructure.Models;
+
+public abstract class DiscordApiCommand : ICommand
 {
-    public abstract class DiscordAPICommand : ICommand
-    {
-        public abstract String Name { get; }
+    public abstract String Name { get; }
 
-        public abstract Task ExecuteAsync(DiscordSocketClient client, object data);
+    public abstract Task ExecuteAsync(DiscordSocketClient client, object data);
 
-        public abstract SlashCommandBuilder GetSlashCommandBuilder();
-    }
+    public abstract SlashCommandBuilder GetSlashCommandBuilder();
 }

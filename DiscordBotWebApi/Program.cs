@@ -10,6 +10,7 @@ using Infrastructure.Services.BackgroundServices;
 using Interfaces;
 using Interfaces.Administration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,11 @@ builder.Services
     .Configure<SmtpOptions>(builder.Configuration.GetSection(SmtpOptions.Title))
     .Configure<ShikimoryClientOptions>(builder.Configuration.GetSection(ShikimoryClientOptions.Title));
 
+builder.Services.AddTransient(ser => ser.GetRequiredService<IOptions<DanbooruOptions>>().Value);
+builder.Services.AddTransient(ser => ser.GetRequiredService<IOptions<ShikimoryOptions>>().Value);
+builder.Services.AddTransient(ser => ser.GetRequiredService<IOptions<DiscordOptions>>().Value);
+builder.Services.AddTransient(ser => ser.GetRequiredService<IOptions<SmtpOptions>>().Value);
+builder.Services.AddTransient(ser => ser.GetRequiredService<IOptions<ShikimoryClientOptions>>().Value);
 var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables()

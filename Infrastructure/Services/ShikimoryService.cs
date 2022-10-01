@@ -2,73 +2,71 @@
 using Enums;
 using Interfaces;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using ShikimoriSharp;
 using ShikimoriSharp.Bases;
 using ShikimoriSharp.Classes;
 using ShikimoriSharp.Settings;
-using shikiApi = ShikimoriSharp;
 
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+
+public class ShikimoryService : IShikimoryService
 {
-    public class ShikimoryService : IShikimoryService
+    private readonly ShikimoryClientOptions _options;
+    private readonly ShikimoriClient _client;
+
+    public ShikimoryService(ShikimoryClientOptions options) 
     {
-        private readonly ShikimoryClientOptions _options;
-        private readonly shikiApi.ShikimoriClient _client;
+        _options = options;
+        _client = new ShikimoriClient(
+            new Logger<ShikimoryService>(new LoggerFactory()),
+            new ClientSettings(_options.ClientName, _options.ClientId, _options.ClientSecret)
+        );
+    }
 
-        public ShikimoryService(IOptions<ShikimoryClientOptions> options) 
+    public async Task<Calendar[]> FetchShikimoryCalendarData(ShikimoryCalendarFetchParametr parametr, int? day = null)
+    {
+        switch (parametr)
         {
-            _options = options.Value;
-            _client = new shikiApi.ShikimoriClient(
-                            new Logger<ShikimoryService>(new LoggerFactory()),
-                            new ClientSettings(_options.ClientName, _options.ClientId, _options.ClientSecret)
-                        );
-        }
+            case ShikimoryCalendarFetchParametr.Today: 
+            {                    
+                var calendar = await _client.Calendars.GetCalendar();
 
-        public async Task<Calendar[]> FetchShikimoryCalendarData(ShikimoryCalendarFetchParametr parametr, int? day = null)
-        {
-            switch (parametr)
-            {
-                case ShikimoryCalendarFetchParametr.Today: 
-                    {                    
-                        var calendar = await _client.Calendars.GetCalendar();
-
-                        return calendar
-                            .Where(x => x.NextEpisodeAt.Day == DateTime.Now.Date.Day && x.Anime.EpisodesAired != 0)
-                            .ToArray();
-                    };
-                case ShikimoryCalendarFetchParametr.DayOfWeek:
-                    {
-                        var calendar = await _client.Calendars.GetCalendar();
-
-                        return calendar
-                            .Where(x => (int)x.NextEpisodeAt.DayOfWeek == day && x.Anime.EpisodesAired != 0)
-                            .ToArray();
-                    };
-                case ShikimoryCalendarFetchParametr.DayOfMonth:
-                    {
-                        var calendar = await _client.Calendars.GetCalendar();
-
-                        return calendar
-                            .Where(x => x.NextEpisodeAt.Day == day && x.Anime.EpisodesAired != 0)
-                            .ToArray();
-                    };
-                default: return null;            
-            }
-        }
-
-        public async Task<Anime[]> SearchAnimeByQueryString(string query) 
-        {
-            var animeRequestSettings = new AnimeRequestSettings
-            {
-                search = query
+                return calendar
+                    .Where(x => x.NextEpisodeAt.Day == DateTime.Now.Date.Day && x.Anime.EpisodesAired != 0)
+                    .ToArray();
             };
+            case ShikimoryCalendarFetchParametr.DayOfWeek:
+            {
+                var calendar = await _client.Calendars.GetCalendar();
 
-            var result = await _client.Animes.GetAnime(
-                animeRequestSettings
-            );
+                return calendar
+                    .Where(x => (int)x.NextEpisodeAt.DayOfWeek == day && x.Anime.EpisodesAired != 0)
+                    .ToArray();
+            };
+            case ShikimoryCalendarFetchParametr.DayOfMonth:
+            {
+                var calendar = await _client.Calendars.GetCalendar();
 
-            return result;
+                return calendar
+                    .Where(x => x.NextEpisodeAt.Day == day && x.Anime.EpisodesAired != 0)
+                    .ToArray();
+            };
+            default: return null;            
         }
+    }
+
+    public async Task<Anime[]> SearchAnimeByQueryString(string query) 
+    {
+        var animeRequestSettings = new AnimeRequestSettings
+        {
+            search = query
+        };
+
+        var result = await _client.Animes.GetAnime(
+            animeRequestSettings
+        );
+
+        return result;
     }
 }

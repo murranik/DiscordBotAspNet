@@ -2,16 +2,15 @@
 using Discord.WebSocket;
 using Models;
 
-namespace DTOModels
+namespace DTOModels;
+
+public class MappingProfile : Profile
 {
-	public class MappingProfile : Profile
+	public MappingProfile()
 	{
-		public MappingProfile()
-		{
-			CreateMap<AdministrationGuildDTO, SocketGuild>();
-			CreateMap<SocketGuild, AdministrationGuildDTO>();
-			CreateMap<AdministratorDTO, Administrator>();
-			CreateMap<Administrator, AdministratorDTO>();
-		}
+		CreateMap<AdministrationGuildDto, SocketGuild>();
+		CreateMap<SocketGuild, AdministrationGuildDto>();
+		CreateMap<AdministratorDto, Administrator>();
+		CreateMap<Administrator, AdministratorDto>();
 	}
 }

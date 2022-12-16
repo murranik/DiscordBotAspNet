@@ -50,7 +50,7 @@ public class GetService : IGetService
 		{
 			foreach (var guild in _client.Guilds)
 			{
-				result.Add(_mapper.Map<AdministrationGuildDto>(guild));
+				result.Add(_mapper.Map<AdministrationGuildDTO>(guild));
 			}
 		}
 

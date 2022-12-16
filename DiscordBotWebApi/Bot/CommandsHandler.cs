@@ -2,33 +2,33 @@
 using Interfaces;
 using Models.Firestore;
 
-namespace DiscordBotWebApi.Bot;
-
-public class CommandsHandler
+namespace DiscordBotWebApi.Bot
 {
-    private readonly DiscordSocketClient _client;
-    private readonly ICommandService _commandServices;
-    private readonly IAuditService _auditService;
-    private readonly IUserService _userService;
-
-    public CommandsHandler(
-        DiscordSocketClient client,
-        ICommandService commandServices,
-        IUserService userService,
-        IAuditService auditService)
+    public class CommandsHandler
     {
-        _client = client;
-        _commandServices = commandServices;
-        _userService = userService;
-        _auditService = auditService;
-    }
+        private readonly DiscordSocketClient _client;
+        private readonly ICommandService _commandServices;
+        private readonly IAuditService _auditService;
+        private readonly IUserService _userService;
 
-    public async Task Handler(SocketSlashCommand commandData)
-    {
-        if (!commandData.User.IsBot)
+        public CommandsHandler(
+            DiscordSocketClient client,
+            ICommandService commandServices,
+            IUserService userService,
+            IAuditService auditService)
         {
-            await _userService.AddPointsFotUser(commandData.User.Id.ToString(), 1);
-            var command = _commandServices.GetComand(commandData);
+            _client = client;
+            _commandServices = commandServices;
+            _userService = userService;
+            _auditService = auditService;
+        }
+
+        public async Task Handler(SocketSlashCommand commandData)
+        {
+            if (!commandData.User.IsBot)
+            {
+                await _userService.AddPointsFotUser(commandData.User.Id.ToString(), 1);
+                var command = _commandServices.GetComand(commandData);
 
                 if (command != null)
                 {
@@ -72,11 +72,11 @@ public class CommandsHandler
             }
         }
 
-    public async Task Handler(SocketMessage msg)
-    {
-        await _userService.AddPointsFotUser(msg.Author.Id.ToString(), 1);
+        public async Task Handler(SocketMessage msg)
+        {
+            await _userService.AddPointsFotUser(msg.Author.Id.ToString(), 1);
 
-        var command = _commandServices.GetComand(msg);
+            var command = _commandServices.GetComand(msg);
 
             if (!msg.Author.IsBot)
             {
@@ -136,7 +136,7 @@ public class CommandsHandler
             string userName = "";
             List<string> commandParams = new();
 
-            if (userCommand is SocketMessage cmd) 
+            if (userCommand is SocketMessage cmd)
             {
                 tempCommand = userCommand as SocketMessage;
                 userId = cmd.Author.Id;
@@ -165,4 +165,5 @@ public class CommandsHandler
             };
         }
     }
+
 }

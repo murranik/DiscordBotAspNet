@@ -11,8 +11,8 @@ namespace DTOModels
 			CreateMap<AdministrationGuildDTO, SocketGuild>();
 			CreateMap<SocketGuild, AdministrationGuildDTO>()
 				.ForMember(x => x.Id, y => y.MapFrom(z => z.Id.ToString()));
-			CreateMap<AdministratorDTO, Administrator>();
-			CreateMap<Administrator, AdministratorDTO>();
+			CreateMap<AdministratorDto, Administrator>();
+			CreateMap<Administrator, AdministratorDto>();
 		}
 	}
 }

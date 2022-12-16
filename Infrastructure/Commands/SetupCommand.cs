@@ -15,11 +15,11 @@ namespace Infrastructure.Commands
 		private readonly ICommandService _commandService;
         private readonly IUserService _userService;
 
-        public SetupCommand(ICommandService commandService, IUserService userService)
-        {
-            _commandService = commandService;
-            _userService = userService;
-        }
+    public SetupCommand(ICommandService commandService, IUserService userService)
+    {
+        _commandService = commandService;
+        _userService = userService;
+    }
 
         public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
@@ -64,41 +64,40 @@ namespace Infrastructure.Commands
             }
         }
 
-        public override SlashCommandBuilder GetSlashCommandBuilder()
+    public override SlashCommandBuilder GetSlashCommandBuilder()
+    {
+        return new SlashCommandBuilder
         {
-            return new SlashCommandBuilder
+            Name = Name,
+            Description = "Setup commands"
+        };
+    }
+
+    private async Task SetupSlashCommands(DiscordSocketClient client, SocketMessage message) 
+    {
+        var guild = client.GetGuild(873689102569054268);
+
+        var commands = _commandService.Commands.Where(x => x is DiscordSlashCommand).ToList();
+        commands.Sort((prev, next) => prev.Name.CompareTo(next.Name));
+        try
+        {
+            await guild.DeleteApplicationCommandsAsync();
+            var progressStep = 100 / commands.Count;
+            var progress = 0;
+            foreach (var command in commands)
             {
-                Name = Name,
-                Description = "Setup commands"
-            };
+                await guild.CreateApplicationCommandAsync(command.GetSlashCommandBuilder().Build());
+                if (progress + progressStep > 100)
+                    progress = 100;
+                else
+                    progress += progressStep;
+                Console.WriteLine(progress + "%");
+            }
+
         }
-
-        private async Task SetupSlashCommands(DiscordSocketClient client, SocketMessage message) 
+        catch (HttpException exception)
         {
-            var guild = client.GetGuild(873689102569054268);
-
-            var commands = _commandService.Commands.Where(x => x is DiscordSlashCommand).ToList();
-            commands.Sort((prev, next) => prev.Name.CompareTo(next.Name));
-            try
-            {
-                await guild.DeleteApplicationCommandsAsync();
-                var progressStep = 100 / commands.Count;
-                var progress = 0;
-                foreach (var command in commands)
-                {
-                    await guild.CreateApplicationCommandAsync(command.GetSlashCommandBuilder().Build());
-                    if (progress + progressStep > 100)
-                        progress = 100;
-                    else
-                        progress += progressStep;
-                    Console.WriteLine(progress + "%");
-                }
-
-            }
-            catch (HttpException exception)
-            {
-                Console.Error.WriteLine(exception.Message);
-            }
+            Console.Error.WriteLine(exception.Message);
         }
     }
 }

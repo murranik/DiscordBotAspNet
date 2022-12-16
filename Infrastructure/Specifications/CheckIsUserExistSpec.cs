@@ -1,13 +1,12 @@
 ﻿using Ardalis.Specification;
 using Models;
 
-namespace Infrastructure.Specifications
+namespace Infrastructure.Specifications;
+
+public class CheckIsUserExistSpec : Specification<DiscordUser>, ISingleResultSpecification<DiscordUser>
 {
-    public class CheckIsUserExistSpec : Specification<DiscordUser>, ISingleResultSpecification<DiscordUser>
+    public CheckIsUserExistSpec(string discordId)
     {
-        public CheckIsUserExistSpec(string DiscordId)
-        {
-            Query.Where(x => x.DiscordId == DiscordId);
-        }
+        Query.Where(x => x.DiscordId == discordId);
     }
 }

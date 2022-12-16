@@ -1,13 +1,12 @@
 ﻿using Ardalis.Specification;
 using Models;
 
-namespace Infrastructure.Specifications
+namespace Infrastructure.Specifications;
+
+public class CheckIsRoleExistSpec : Specification<DiscordRole>, ISingleResultSpecification<DiscordRole>
 {
-	public class CheckIsRoleExistSpec : Specification<DiscordRole>, ISingleResultSpecification<DiscordRole>
+    public CheckIsRoleExistSpec(ulong discordId)
     {
-        public CheckIsRoleExistSpec(ulong DiscordId)
-        {
-            Query.Where(x => x.DiscordId == DiscordId);
-        }
+        Query.Where(x => x.DiscordId == discordId);
     }
 }

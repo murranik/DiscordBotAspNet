@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Constants\Constants.csproj" />
     <ProjectReference Include="..\DTOModels\DTOModels.csproj" />
     <ProjectReference Include="..\Enums\Enums.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />

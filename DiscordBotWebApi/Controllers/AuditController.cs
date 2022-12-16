@@ -15,17 +15,10 @@ namespace DiscordBotWebApi.Controllers
 			_auditService = auditService;
 		}
 
-		[HttpGet("Errors/{guildId}")]
-		public async Task<IActionResult> GetErrorHistory([FromQuery]int? rowsCount, ulong guildId) 
-		{
-			var res = await _auditService.GetErrorsAsync(rowsCount, guildId);
-			return Ok(res);
-		}
-
 		[HttpGet("Commands/{guildId}")]
-		public async Task<IActionResult> GetCommandHistory([FromQuery] int? rowsCount, ulong guildId)
+		public async Task<IActionResult> GetCommandsHistory([FromQuery] int? rowsCount, ulong guildId)
 		{
-			var res = await _auditService.GetCommandHistory(rowsCount, guildId);
+			var res = await _auditService.GetCommandsHistory(rowsCount, guildId);
 			return Ok(res);
 		}
 	}

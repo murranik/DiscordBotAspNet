@@ -7,6 +7,7 @@ namespace Infrastructure.Commands.RandomCommands
     public class RandomCommand : DiscordSlashCommand
     {
         public override string Name => "random";
+       public override string Result { get; set; }
 
         readonly Random _random = new();
 
@@ -17,10 +18,15 @@ namespace Infrastructure.Commands.RandomCommands
                 var min = 0;
 
                 var max = command.Data.Options.First();
+
                 Console.WriteLine($"Random from {min} to {max.Value}");
                 Console.WriteLine(min);
                 Console.WriteLine(max);
-                await command.RespondAsync("Random value = " + _random.Next(min, int.Parse(max.Value.ToString())).ToString());
+
+                var result = _random.Next(min, int.Parse(max.Value.ToString())).ToString();
+                Result = result;
+
+                await command.RespondAsync("Random value = " + result);
             }
             else
             {
@@ -39,7 +45,7 @@ namespace Infrastructure.Commands.RandomCommands
             setupRandomCommand.AddOption(
                 "value",
                 ApplicationCommandOptionType.Number,
-                "Biba and boba",
+                "max",
                 isRequired: true,
                 minValue: 0.0
             );

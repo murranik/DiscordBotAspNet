@@ -9,7 +9,8 @@ namespace DTOModels
 		public MappingProfile()
 		{
 			CreateMap<AdministrationGuildDTO, SocketGuild>();
-			CreateMap<SocketGuild, AdministrationGuildDTO>();
+			CreateMap<SocketGuild, AdministrationGuildDTO>()
+				.ForMember(x => x.Id, y => y.MapFrom(z => z.Id.ToString()));
 			CreateMap<AdministratorDTO, Administrator>();
 			CreateMap<Administrator, AdministratorDTO>();
 		}

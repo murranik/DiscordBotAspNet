@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeWebApi", "ThemeWebApi\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{7327D0A8-95AD-4238-B378-44654D3D3C6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enums", "Enums\Enums.csproj", "{78AF6DD1-3170-4B16-ADC7-F0D036AF6B0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enums", "Enums\Enums.csproj", "{78AF6DD1-3170-4B16-ADC7-F0D036AF6B0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Constants.csproj", "{8291C86E-E23B-490B-BB44-DD578946021B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{78AF6DD1-3170-4B16-ADC7-F0D036AF6B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78AF6DD1-3170-4B16-ADC7-F0D036AF6B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78AF6DD1-3170-4B16-ADC7-F0D036AF6B0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8291C86E-E23B-490B-BB44-DD578946021B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8291C86E-E23B-490B-BB44-DD578946021B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8291C86E-E23B-490B-BB44-DD578946021B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8291C86E-E23B-490B-BB44-DD578946021B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

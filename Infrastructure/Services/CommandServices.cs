@@ -18,7 +18,6 @@ namespace Infrastructure.Services
                new RandomCommand(),
                new RollCommands(),
                new BulkDelete(),
-               new GetHistoryCommand(),
                new FetchCalendarDataCommand(shikimoryService),
                new SetupCommand(this, userService),
                new SearchAnimeArtCommand(),

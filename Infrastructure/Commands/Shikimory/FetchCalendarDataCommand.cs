@@ -10,6 +10,8 @@ namespace Infrastructure.Commands.Shikimory
 	public class FetchCalendarDataCommand : DiscordSlashCommand
     {
         public override string Name => "sendcalendar";
+        public override string Result { get; set; }
+
         private readonly IShikimoryService _shikimoryService;
 
         public FetchCalendarDataCommand(IShikimoryService shikimoryService) 
@@ -44,6 +46,8 @@ namespace Infrastructure.Commands.Shikimory
                         Color = new Color(255, 16, 240),
                         Footer = BuildEmbedFootter(calendar)
                     };
+
+                    Result = calendars.Select(x => x.Anime.Url + '\n').ToList().ToString();
 
                     await command.Channel.SendMessageAsync(embed: embed.Build());
                 }

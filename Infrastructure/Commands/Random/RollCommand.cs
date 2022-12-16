@@ -7,6 +7,7 @@ namespace Infrastructure.Commands.RandomCommands
     public class RollCommands : DiscordSlashCommand
     {
         public override string Name => "roll";
+        public override string Result { get; set; }
 
         readonly Random _random = new();
 
@@ -14,8 +15,14 @@ namespace Infrastructure.Commands.RandomCommands
         {
             if (commandObj is SocketSlashCommand command)
             {
+                var result = _random.Next(0, 100).ToString();
+
+                Result = result;
+
                 Console.WriteLine($"Random from {0} to {100}");
-                await command.RespondAsync(command.User.Username.ToUpper() + " rolling - **" + _random.Next(0, 100).ToString() + "**");
+                Console.WriteLine($"Result = {result}");
+
+                await command.RespondAsync(command.User.Username.ToUpper() + " rolling - **" + result + "**");
             }
             else
             {

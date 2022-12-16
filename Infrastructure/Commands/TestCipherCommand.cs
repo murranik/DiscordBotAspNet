@@ -9,6 +9,7 @@ namespace Infrastructure.Commands
     public class TestCipherCommand : DiscordSlashCommand
     {
         public override string Name => "testcipher";
+        public override string Result { get; set; }
 
         private readonly ITokenService _tokenService;
 
@@ -25,6 +26,9 @@ namespace Infrastructure.Commands
                 var res = _tokenService.Encrypt(data);
                 var res1 = _tokenService.Decrypt(res);
                 var res2 = _tokenService.GenerateToken(data);
+
+                Result = res + "\n" + res1 + "\nToken = " + res2;
+
                 await command.RespondAsync(res +"\n"+ res1 + "\nToken = " + res2);
             }
             else

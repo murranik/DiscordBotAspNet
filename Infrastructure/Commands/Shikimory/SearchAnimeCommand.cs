@@ -8,6 +8,7 @@ namespace Infrastructure.Commands.Shikimory
 	public class SearchAnimeCommand : DiscordSlashCommand
     {
         public override string Name => "searchanime";
+       public override string Result { get; set; }
 
         private readonly IShikimoryService _shikimoryService;
 
@@ -29,6 +30,9 @@ namespace Infrastructure.Commands.Shikimory
                     Url = "https://shikimori.one" + animes.First().Url,
                     Color = new Color(255, 16, 240),
                 };
+
+                Result = animes.Select(x => x.Name + '\n').ToList().ToString();
+
                 await command.RespondAsync(embed: embed.Build());
             }
             else

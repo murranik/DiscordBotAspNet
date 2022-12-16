@@ -9,7 +9,10 @@ namespace Infrastructure.Commands
 {
     public class SetupCommand : DiscordMessageCommand
     {
-        private readonly ICommandService _commandService;
+        public override string Name => "!setup";
+        public override string Result { get; set; }
+
+		private readonly ICommandService _commandService;
         private readonly IUserService _userService;
 
         public SetupCommand(ICommandService commandService, IUserService userService)
@@ -17,8 +20,6 @@ namespace Infrastructure.Commands
             _commandService = commandService;
             _userService = userService;
         }
-
-        public override string Name => "!setup";
 
         public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
@@ -34,6 +35,7 @@ namespace Infrastructure.Commands
                         await _userService.FetchAllRolesFromDiscord(client);
                         await _userService.RemoveUsersStatsChannel(client);
                         await _userService.GeneratePersonalStatisticChats(client);
+                        Result = "Setuped all";
                     } 
                     else if (paramets.Contains("users")) 
                     {
@@ -41,14 +43,17 @@ namespace Infrastructure.Commands
                         await _userService.FetchAllRolesFromDiscord(client);
                         await _userService.RemoveUsersStatsChannel(client);
                         await _userService.GeneratePersonalStatisticChats(client);
+                        Result = "Setuped users-only";
                     }
                     //Todo make stats comand
                     else if (paramets.Contains("stats") && paramets.Contains("delete"))
                     {
+                        Result = "Setup - removed user stats channels";
                         await _userService.RemoveUsersStatsChannel(client);
                     }
                     else if (paramets.Contains("slashcommands"))
                     {
+                        Result = "Setuped slash commands";
                         await SetupSlashCommands(client, commandObj as SocketMessage);
                     }
                 }

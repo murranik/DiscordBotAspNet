@@ -1,16 +1,12 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Interfaces
 {
-    public interface ICommand
+	public interface ICommand
     {
-        public abstract String Name { get; }
+        public abstract string Name { get; }
+        public abstract string Result { get; set; }
         
         public bool Contains(SocketMessage msg)
         {

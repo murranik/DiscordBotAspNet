@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Constants;
+using Discord;
 using Discord.WebSocket;
 using Infrastructure.Models;
 using Infrastructure.Services;
@@ -8,13 +9,15 @@ namespace Infrastructure.Commands.RandomCommands
     public class RandomAnimeArt : DiscordSlashCommand
     {
         public override string Name => "randomanimeart";
+        public override string Result { get; set; }
 
         public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
             if (commandObj is SocketSlashCommand command)
             {
                 var danbooruService = new DanbooruService();
-                var url = await danbooruService.GetRandomArt((Int64)command.Data.Options.First().Value == 1);
+                var url = await danbooruService.GetRandomArt(command.Data.Options.First().Value as string);
+                Result = url;
                 await command.RespondAsync(url ?? "Not found");
             }
             else
@@ -33,23 +36,18 @@ namespace Infrastructure.Commands.RandomCommands
 
             setupRandomArtCommand.AddOption
                 (
-                "censorship",
-                ApplicationCommandOptionType.Integer,
-                "Biba and boba",
+                "provider",
+                ApplicationCommandOptionType.String,
+                "nani?",
                 isRequired: true,
-                choices: new ApplicationCommandOptionChoiceProperties[2]
-                    {
-                        new ApplicationCommandOptionChoiceProperties
+                choices: ConstantsContainer
+                    .AnimeArtsProviders
+                        .Select(x => new ApplicationCommandOptionChoiceProperties
                         {
-                            Name = "Yes",
-                            Value = 0
-                        },
-                        new ApplicationCommandOptionChoiceProperties
-                        {
-                            Name = "No",
-                            Value = 1
-                        },
-                    }
+                            Name = x.Key,
+                            Value = x.Value.ToString(),
+                        })
+                        .ToArray()
                 );
 
             return setupRandomArtCommand;

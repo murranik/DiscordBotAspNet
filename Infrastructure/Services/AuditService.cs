@@ -16,16 +16,7 @@ namespace Infrastructure.Services
 			_firestoreDb = FirestoreDb.Create("shikiwebui-e7009", builder.Build());
 		}
 
-		public async Task AddErrorAsync(CommandError error, ulong guildId)
-		{
-			await _firestoreDb
-				.Collection("audit")
-				.Document($"{guildId}")
-				.Collection("Errors")
-				.AddAsync(error);
-		}
-
-		public async Task AddCommandAsync(CommandCallInfo command, ulong guildId)
+		public async Task AddCommandCallInfoAsync(CommandCallInfo command, ulong guildId)
 		{
 			await _firestoreDb
 				.Collection("audit")
@@ -34,25 +25,7 @@ namespace Infrastructure.Services
 				.AddAsync(command);
 		}
 
-		public async Task<List<CommandError>> GetErrorsAsync(int? rowsCount, ulong guildId) 
-		{
-			var errorsSnapshot = await _firestoreDb
-				.Collection("audit")
-				.Document($"{guildId}")
-				.Collection("Errors")
-				.GetSnapshotAsync();
-
-			List<CommandError> commandErrors = new();
-
-			errorsSnapshot
-				.Documents
-				.ToList()
-				.ForEach(x => commandErrors.Add(x.ConvertTo<CommandError>()));
-
-			return commandErrors;
-		}
-
-		public async Task<List<CommandCallInfo>> GetCommandHistory(int? rowsCount, ulong guildId)
+		public async Task<List<CommandCallInfo>> GetCommandsHistory(int? rowsCount, ulong guildId)
 		{
 			var commandsCallInfoSnapshot = await _firestoreDb
 					.Collection("audit")

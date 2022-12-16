@@ -2,7 +2,7 @@
 {
 	public interface IDanbooruService
 	{
-		Task<string> GetRandomArt(bool cencorship = false);
-		Task<string> GetArt(string tags, bool cencorship = false);
+		Task<string> GetRandomArt(string provider);
+		Task<string> GetArt(string tags, string provider);
 	}
 }

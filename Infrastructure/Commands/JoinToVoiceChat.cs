@@ -8,6 +8,7 @@ namespace Infrastructure.Commands
     public class JoinToVoiceChat : DiscordSlashCommand
     {
         public override string Name => "jointochat";
+       public override string Result { get; set; }
 
         public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
@@ -15,6 +16,9 @@ namespace Infrastructure.Commands
             {
                 var user = command.User as SocketGuildUser;
                 var channel = user.VoiceChannel as IVoiceChannel;
+
+                Result = $"Connected to {channel.Name}";
+
                 var m = await channel.ConnectAsync();
                 
             }

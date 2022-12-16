@@ -18,6 +18,15 @@ namespace Models.Firestore
 		public ulong UserId { get; set; }
 
 		[FirestoreProperty]
-		public string Message { get; set; }
+		public string CommandName { get; set; }
+
+		[FirestoreProperty]
+		public List<string> CommandParams { get; set; }
+
+		[FirestoreProperty]
+		public string CommandResult { get; set; }
+
+		[FirestoreProperty]
+		public string? ErrorMessage { get; set; }
 	}
 }

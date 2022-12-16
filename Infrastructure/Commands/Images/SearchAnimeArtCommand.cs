@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Constants;
+using Discord;
 using Discord.WebSocket;
 using Infrastructure.Models;
 using Infrastructure.Services;
@@ -9,12 +10,15 @@ namespace Infrastructure.Commands.Images
     {
         public override string Name => "searchanimeart";
 
-        public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
+		public override string Result { get; set; }
+
+		public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
             if (commandObj is SocketSlashCommand command)
             {
                 var danbooruService = new DanbooruService();
-                var url = await danbooruService.GetArt((string)command.Data.Options.First().Value, (Int64)command.Data.Options.Last().Value == 1);
+                var url = await danbooruService.GetArt((string)command.Data.Options.First().Value, (string)command.Data.Options.Last().Value);
+                Result = url;
                 await command.RespondAsync(url ?? "Not found");
             }
             else
@@ -35,26 +39,21 @@ namespace Infrastructure.Commands.Images
                 (
                 "tags",
                 ApplicationCommandOptionType.String,
-                "Biba and boba",
+                "Danbouru tag",
                 isRequired: true).AddOption
                 (
-                "censorship",
-                ApplicationCommandOptionType.Integer,
-                "Biba and boba",
+                "provider",
+                ApplicationCommandOptionType.String,
+                "nani?",
                 isRequired: true,
-                choices: new ApplicationCommandOptionChoiceProperties[2]
-                    {
-                        new ApplicationCommandOptionChoiceProperties
+                choices: ConstantsContainer
+                    .AnimeArtsProviders
+                        .Select(x => new ApplicationCommandOptionChoiceProperties
                         {
-                            Name = "Yes",
-                            Value = 0
-                        },
-                        new ApplicationCommandOptionChoiceProperties
-                        {
-                            Name = "No",
-                            Value = 1
-                        },
-                    }
+                            Name = x.Key,
+                            Value = x.Value.ToString(),
+                        })
+                        .ToArray()
                 );
 
             return setupRandomArtCommand;

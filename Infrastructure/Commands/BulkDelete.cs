@@ -1,13 +1,13 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Infrastructure.Models;
-using Infrastructure.Services;
 
 namespace Infrastructure.Commands
 {
-    public class BulkDelete : DiscordSlashCommand
+	public class BulkDelete : DiscordSlashCommand
     {
         public override string Name => "clear";
+       public override string Result { get; set; }
 
         public override async Task ExecuteAsync(DiscordSocketClient client, object commandObj)
         {
@@ -19,7 +19,11 @@ namespace Infrastructure.Commands
                     
                     var channel = client.GetChannel(command.Channel.Id) as SocketTextChannel;
                     var messages = await channel.GetMessagesAsync().FlattenAsync();
+
                     await ((ITextChannel)channel).DeleteMessagesAsync(messages.Where(x => x.Timestamp >= DateTimeOffset.Now.Subtract(TimeSpan.FromDays(14))));
+
+                    Result = $"Cleaning success - deleted {messages.Where(x => x.Timestamp >= DateTimeOffset.Now.Subtract(TimeSpan.FromDays(14))).ToList().Count} messages";
+
                     await command.Channel.SendMessageAsync("Clearing success");
                 }
                 else
